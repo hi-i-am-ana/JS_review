@@ -62,3 +62,16 @@ let person4 = Object.create(person3);
 console.log(person4.name);
 console.log(person4.age);
 console.log(person4.greeting());
+person3.name = 'kaka'
+
+console.log(person4.name);
+console.log(person4.age);
+console.log(person4.greeting());
+
+
+
+console.log(Object.getPrototypeOf(person4))
+console.log(person4.prototype)
+
+a =0
+console.log(a)

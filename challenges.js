@@ -76,7 +76,7 @@ console.log(hasTriplets2([5, 3, 4]))
 // Write a function which prints every number from 0 up to the given input. If divisible by 3, print "Fizz" instead of the number. If divisible by 5, print "Buzz". If input is divisible by 3 AND 5, print "FizzBuzz"
 const printNumbers = number => {
   for (let i = 0; i <= number; i++) {
-    i % 3 === 0 ? console.log('Fizz') : i % 5 === 0 ? console.log('Buzz') : i % 3 === 0 && i % 5 === 0 ? console.log('FizzBuzz') : console.log(i)
+    i % 3 === 0 && i % 5 === 0 ? console.log('FizzBuzz') : i % 3 === 0 ? console.log('Fizz') : i % 5 === 0 ? console.log('Buzz') : console.log(i)
   }
 }
 printNumbers(15)
@@ -245,3 +245,35 @@ console.log(maxLength2([6,1,1,1,1], 5))
 //     }
 //   }
 // }
+
+
+// Vote counting machine
+const countVotes = (validCandidates, voteCasted) => {
+  let counting = []
+  validCandidates.forEach((candidate, i) => {
+    counting[i] = 0
+    voteCasted.forEach(vote => {
+      if (candidate === vote) {
+        counting[i]++
+      }
+    })
+  })
+  const validVotes = counting.reduce((accu, curval) => accu + curval)
+  const invalidVotes = voteCasted.length - validVotes
+  if (invalidVotes > validVotes || voteCasted.length === 0) {
+    console.log('N/A')
+  } else {
+    const winnerIndex = counting.indexOf(Math.max(...counting))
+    const winner = validCandidates[winnerIndex]
+    result = ''
+    validCandidates.forEach((candidate, i) => {
+      result += `${candidate}=${counting[i]} `
+    })
+    result += `invalidVotes=${invalidVotes} `
+    result += `Winner=${winner}`
+    console.log(result)
+  }
+}
+const validCandidates = ['A', 'B', 'C']
+const voteCasted = ['A', 'F', 'A', 'B', 'A', 'B', 'A', 'C', 'E']
+countVotes(validCandidates, voteCasted) // A=4 B=2 C=1 invalidVotes=2, Winner=A
