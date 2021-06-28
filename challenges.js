@@ -248,7 +248,9 @@ console.log(maxLength2([6,1,1,1,1], 5))
 
 
 // Vote counting machine
-const countVotes = (validCandidates, voteCasted) => {
+
+// Variant 1
+const countVotes1 = (validCandidates, voteCasted) => {
   let counting = []
   validCandidates.forEach((candidate, i) => {
     counting[i] = 0
@@ -276,4 +278,32 @@ const countVotes = (validCandidates, voteCasted) => {
 }
 const validCandidates = ['A', 'B', 'C']
 const voteCasted = ['A', 'F', 'A', 'B', 'A', 'B', 'A', 'C', 'E']
-countVotes(validCandidates, voteCasted) // A=4 B=2 C=1 invalidVotes=2, Winner=A
+countVotes1(validCandidates, voteCasted) // A=4 B=2 C=1 invalidVotes=2, Winner=A
+
+// Variant 2
+const countVotes2 = (validCandidates, voteCasted) => {
+  let counting = {}
+  validCandidates.forEach(candidate => counting[candidate] = 0)
+  counting['invalidVotes'] = 0
+
+  voteCasted.forEach(vote => {
+    if (validCandidates.includes(vote)) {
+      counting[vote]++
+    } else {
+      counting['invalidVotes']++
+    }
+  })
+
+  if (counting['invalidVotes'] > voteCasted.length / 2 || voteCasted.length === 0) {
+    console.log('N/A')
+  } else {
+    result = ''
+    for (const [key, value] of Object.entries(counting)) {
+      result += `${key}=${value} `
+    }
+    const winner = Object.keys(counting).reduce((a, b) => counting[a] > counting[b] ? a : b)
+    result += `Winner=${winner}`
+    console.log(result)
+  }
+}
+countVotes2(validCandidates, voteCasted) // A=4 B=2 C=1 invalidVotes=2, Winner=A
